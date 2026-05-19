@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiveLedger - Community Setlists</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a href="home.html" class="logo">LiveLedger</a>
+    <nav class="navlinks">
+      <a href="shows.html">Recente shows</a>
+      <a href="artist.html">Artiesten</a>
+      <a href="venues.html">Venues</a>
+      <a href="community.html">Community</a>
+    </nav>
+    <div class="actions">
+      <a href="login.html" class="btn btn-ghost">Inloggen</a>
+      <a href="add-show.html" class="btn btn-accent">Show toevoegen</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <p class="kicker">Community-gedreven live archief</p>
+      <h1>Vind, upload en beoordeel setlists van echte shows.</h1>
+      <p class="hero-copy">
+        Geen tickets. Geen streams. Alleen livemuziek zoals ze echt gespeeld werd,
+        gedocumenteerd door concertbezoekers.
+      </p>
+      <form class="searchbar" action="shows.html" method="get">
+        <input type="search" placeholder="Zoek op artiest, venue of datum (YYYY-MM-DD)" />
+        <button type="submit" class="btn btn-accent">Zoeken</button>
+      </form>
+    </section>
+
+    <section class="container section">
+      <div class="section-head">
+        <h2>Recente shows</h2>
+        <a href="shows.html">Alles bekijken</a>
+      </div>
+      <div class="grid shows-grid">
+        <article class="card">
+          <p class="meta">2026-05-12 • Ancienne Belgique, Brussel</p>
+          <h3><a href="show.html">Fontaines D.C.</a></h3>
+          <p class="sub">14 nummers • Gemiddelde score 4.6/5</p>
+          <ul>
+            <li>Romance</li>
+            <li>Jackie Down the Line</li>
+            <li>I Love You</li>
+          </ul>
+        </article>
+        <article class="card">
+          <p class="meta">2026-05-10 • Lotto Arena, Antwerpen</p>
+          <h3><a href="show.html">IDLES</a></h3>
+          <p class="sub">16 nummers • Gemiddelde score 4.3/5</p>
+          <ul>
+            <li>Colossus</li>
+            <li>Mother</li>
+            <li>Danny Nedelko</li>
+          </ul>
+        </article>
+        <article class="card">
+          <p class="meta">2026-05-08 • Vorst Nationaal, Brussel</p>
+          <h3><a href="show.html">The National</a></h3>
+          <p class="sub">19 nummers • Gemiddelde score 4.8/5</p>
+          <ul>
+            <li>Tropic Morning News</li>
+            <li>Bloodbuzz Ohio</li>
+            <li>Fake Empire</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="container section">
+      <div class="section-head">
+        <h2>Uitgelichte artiesten</h2>
+        <a href="artist.html">Alle artiesten</a>
+      </div>
+      <div class="grid artists-grid">
+        <article class="artist-card">
+          <div class="artist-image image-one"></div>
+          <div class="artist-copy">
+            <h3><a href="artist.html">Amyl and the Sniffers</a></h3>
+            <p>Punk Rock</p>
+            <span>8 geregistreerde shows</span>
+          </div>
+        </article>
+        <article class="artist-card">
+          <div class="artist-image image-two"></div>
+          <div class="artist-copy">
+            <h3><a href="artist.html">Khruangbin</a></h3>
+            <p>Psychedelic / Funk</p>
+            <span>5 geregistreerde shows</span>
+          </div>
+        </article>
+        <article class="artist-card">
+          <div class="artist-image image-three"></div>
+          <div class="artist-copy">
+            <h3><a href="artist.html">Turnstile</a></h3>
+            <p>Hardcore Punk</p>
+            <span>6 geregistreerde shows</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

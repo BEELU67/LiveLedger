@@ -1,0 +1,279 @@
+:root {
+  --bg: #0a0e12;
+  --surface: #111821;
+  --surface-soft: #192432;
+  --text: #ecf2f8;
+  --muted: #9ca9b8;
+  --line: #243447;
+  --accent: #12c7d8;
+  --accent-dark: #0faab9;
+  --max-width: 1160px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(80rem 60rem at 10% -10%, #10263a 0%, transparent 45%),
+    radial-gradient(60rem 40rem at 95% 10%, #112233 0%, transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Manrope", sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: min(100% - 3rem, var(--max-width));
+  margin-inline: auto;
+}
+
+.topbar {
+  width: min(100% - 3rem, var(--max-width));
+  margin: 1.25rem auto 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(17, 24, 33, 0.82);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.logo {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+}
+
+.navlinks {
+  display: flex;
+  gap: 1.2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.navlinks a:hover {
+  color: var(--text);
+}
+
+.actions {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.btn {
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  border: 1px solid transparent;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #031116;
+}
+
+.btn-accent:hover {
+  background: var(--accent-dark);
+}
+
+.hero {
+  padding: 4.5rem 0 2rem;
+}
+
+.kicker {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  margin-bottom: 0.5rem;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Space Grotesk", sans-serif;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 4.4vw, 4rem);
+  line-height: 1.06;
+  max-width: 18ch;
+}
+
+.hero-copy {
+  color: var(--muted);
+  max-width: 65ch;
+  margin: 1rem 0 2rem;
+}
+
+.searchbar {
+  border: 1px solid var(--line);
+  background: rgba(17, 24, 33, 0.88);
+  border-radius: 14px;
+  padding: 0.45rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.searchbar input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  padding: 0.7rem 0.8rem;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.searchbar input:focus {
+  outline: none;
+}
+
+.section {
+  padding: 1.8rem 0;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+}
+
+.section-head h2 {
+  font-size: clamp(1.3rem, 2.3vw, 2rem);
+}
+
+.section-head a {
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.shows-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.artists-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.card,
+.artist-card {
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(25, 36, 50, 0.8), rgba(17, 24, 33, 0.95));
+  border-radius: 14px;
+}
+
+.card {
+  padding: 1rem;
+}
+
+.card .meta,
+.card .sub {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.card ul {
+  margin: 0.8rem 0 0;
+  padding: 0 0 0 1rem;
+  color: #d8e2ec;
+}
+
+.artist-card {
+  overflow: hidden;
+}
+
+.artist-image {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+}
+
+.image-one {
+  background-image: linear-gradient(135deg, #0f1721, #22577a);
+}
+
+.image-two {
+  background-image: linear-gradient(135deg, #0f1721, #386641);
+}
+
+.image-three {
+  background-image: linear-gradient(135deg, #0f1721, #6f1d1b);
+}
+
+.artist-copy {
+  padding: 1rem;
+}
+
+.artist-copy p,
+.artist-copy span {
+  color: var(--muted);
+  margin: 0.35rem 0 0;
+}
+
+@media (max-width: 1000px) {
+  .shows-grid,
+  .artists-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .navlinks {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .topbar {
+    flex-wrap: wrap;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .actions .btn {
+    width: 100%;
+  }
+
+  .searchbar {
+    flex-direction: column;
+  }
+
+  .shows-grid,
+  .artists-grid {
+    grid-template-columns: 1fr;
+  }
+}
