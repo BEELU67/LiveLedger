@@ -26,7 +26,7 @@
 
   <main class="container section">
     <p class="kicker">Gebruiker</p>
-    <h1>@luka_live</h1>
+    <h1 id="profile-name">@luka_live</h1>
     <section class="section">
       <div class="section-head"><h2>Bijgewoonde shows</h2></div>
       <article class="card"><p>12 shows gelogd</p></article>
@@ -36,5 +36,15 @@
       <article class="card"><p>5 reviews geschreven</p></article>
     </section>
   </main>
+  <script>
+    const profileName = document.querySelector("#profile-name");
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("user");
+
+    if (username) {
+      profileName.textContent = `@${username}`;
+      document.title = `LiveLedger - @${username}`;
+    }
+  </script>
 </body>
 </html>
