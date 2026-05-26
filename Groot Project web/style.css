@@ -38,15 +38,15 @@ a {
 .topbar {
   width: min(100% - 3rem, var(--max-width));
   margin: 1.25rem auto 0;
-  padding: 0.9rem 1rem;
+  padding: 1rem 1.2rem;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: rgba(17, 24, 33, 0.82);
   backdrop-filter: blur(8px);
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .logo {
@@ -61,6 +61,8 @@ a {
   gap: 1.2rem;
   color: var(--muted);
   font-size: 0.95rem;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .navlinks a:hover {
@@ -70,14 +72,20 @@ a {
 .actions {
   display: flex;
   gap: 0.65rem;
+  justify-content: flex-end;
 }
 
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 132px;
   border-radius: 10px;
-  padding: 0.6rem 1rem;
+  padding: 0.75rem 1.15rem;
   border: 1px solid transparent;
   font-family: "Space Grotesk", sans-serif;
   font-weight: 500;
+  line-height: 1;
   cursor: pointer;
 }
 
@@ -131,9 +139,10 @@ h1 {
   border: 1px solid var(--line);
   background: rgba(17, 24, 33, 0.88);
   border-radius: 14px;
-  padding: 0.45rem;
+  padding: 0.6rem;
   display: flex;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .searchbar input {
@@ -191,7 +200,7 @@ h1 {
 }
 
 .card {
-  padding: 1rem;
+  padding: 1.2rem;
 }
 
 .card .meta,
@@ -385,15 +394,17 @@ h1 {
 
 @media (max-width: 680px) {
   .topbar {
-    flex-wrap: wrap;
+    grid-template-columns: 1fr;
   }
 
   .actions {
     width: 100%;
+    justify-content: stretch;
   }
 
   .actions .btn {
     width: 100%;
+    min-width: 0;
   }
 
   .searchbar {

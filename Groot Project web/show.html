@@ -13,14 +13,15 @@
   <header class="topbar">
     <a href="home.html" class="logo">LiveLedger</a>
     <nav class="navlinks">
-      <a href="shows.html">Recente shows</a>
+      <a href="shows.php">Recente shows</a>
       <a href="artist.html">Artiesten</a>
       <a href="venues.html">Venues</a>
       <a href="community.html">Community</a>
+      <a href="profile.php">Profiel</a>
     </nav>
     <div class="actions">
       <a href="profile.php" class="btn btn-ghost">Profiel</a>
-      <a href="add-show.php" class="btn btn-accent">Review schrijven</a>
+      <a href="add-show.php" class="btn btn-accent">Show toevoegen</a>
     </div>
   </header>
 
@@ -47,7 +48,7 @@
       </div>
 
       <form class="comment-form card" id="comment-form">
-        <a class="avatar-link" href="profile.html?user=luka_live" aria-label="Ga naar profiel van @luka_live">
+        <a class="avatar-link" href="profile.php" aria-label="Ga naar profiel van @luka_live">
           <span class="avatar">LL</span>
         </a>
         <div class="comment-inputs">
@@ -115,7 +116,7 @@
       const article = document.createElement("article");
       article.className = "comment card";
 
-      const profileHref = `profile.html?user=${encodeURIComponent(comment.username)}`;
+      const profileHref = "profile.php";
       const avatarLink = document.createElement("a");
       avatarLink.className = "avatar-link";
       avatarLink.href = profileHref;

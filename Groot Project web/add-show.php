@@ -19,7 +19,7 @@ requireLogin();
   <header class="topbar">
     <a href="home.html" class="logo">LiveLedger</a>
     <nav class="navlinks">
-      <a href="shows.html">Recente shows</a>
+      <a href="shows.php">Recente shows</a>
       <a href="artist.html">Artiesten</a>
       <a href="venues.html">Venues</a>
       <a href="community.html">Community</a>

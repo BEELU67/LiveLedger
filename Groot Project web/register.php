@@ -8,24 +8,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = (string) ($_POST['password'] ?? '');
 
-    if ($email === '' || $password === '') {
-        header('Location: login.php?error=1');
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($password) < 6) {
+        header('Location: register.php?error=1');
         exit;
     }
 
-    $stmt = $pdo->prepare('SELECT id, email, password_hash FROM users WHERE email = :email LIMIT 1');
-    $stmt->execute([':email' => $email]);
-    $user = $stmt->fetch();
+    try {
+        $stmt = $pdo->prepare(
+            'INSERT INTO users (email, password_hash) VALUES (:email, :password_hash)'
+        );
+        $stmt->execute([
+            ':email' => $email,
+            ':password_hash' => password_hash($password, PASSWORD_DEFAULT),
+        ]);
 
-    if (!$user || !password_verify($password, (string) $user['password_hash'])) {
-        header('Location: login.php?error=1');
+        $_SESSION['user_id'] = (int) $pdo->lastInsertId();
+        $_SESSION['user_email'] = $email;
+        header('Location: profile.php');
+        exit;
+    } catch (Throwable $e) {
+        header('Location: register.php?error=1');
         exit;
     }
-
-    $_SESSION['user_id'] = (int) $user['id'];
-    $_SESSION['user_email'] = (string) $user['email'];
-    header('Location: profile.php');
-    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -33,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LiveLedger - Login</title>
+  <title>LiveLedger - Registreren</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -50,19 +54,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <a href="profile.php">Profiel</a>
     </nav>
     <div class="actions">
-      <a href="register.php" class="btn btn-ghost">Registreren</a>
+      <a href="login.php" class="btn btn-ghost">Inloggen</a>
     </div>
   </header>
   <main class="container section">
     <p class="kicker">Account</p>
-    <h1>Inloggen</h1>
+    <h1>Registreren</h1>
     <?php if (isset($_GET['error'])): ?>
-      <p class="sub">Inloggen mislukt. Controleer je gegevens.</p>
+      <p class="sub">Registratie mislukt. Gebruik een geldig e-mail en min. 6 tekens wachtwoord.</p>
     <?php endif; ?>
-    <form class="searchbar section" method="post" action="login.php">
+    <form class="searchbar section" method="post" action="register.php">
       <input type="email" name="email" placeholder="E-mail" required />
-      <input type="password" name="password" placeholder="Wachtwoord" required />
-      <button class="btn btn-accent" type="submit">Login</button>
+      <input type="password" name="password" placeholder="Wachtwoord (min. 6 tekens)" minlength="6" required />
+      <button class="btn btn-accent" type="submit">Account maken</button>
     </form>
   </main>
 </body>

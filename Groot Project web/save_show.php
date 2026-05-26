@@ -22,13 +22,14 @@ if ($showDate === '' || $venue === '' || $city === '' || $artist === '') {
 
 try {
     $stmt = $pdo->prepare(
-        'INSERT INTO shows (show_date, venue, city, artist) VALUES (:show_date, :venue, :city, :artist)'
+        'INSERT INTO shows (show_date, venue, city, artist, user_id) VALUES (:show_date, :venue, :city, :artist, :user_id)'
     );
     $stmt->execute([
         ':show_date' => $showDate,
         ':venue' => $venue,
         ':city' => $city,
         ':artist' => $artist,
+        ':user_id' => currentUserId(),
     ]);
 } catch (Throwable $e) {
     header('Location: add-show.php?error=1');
