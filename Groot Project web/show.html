@@ -20,19 +20,19 @@
     </nav>
     <div class="actions">
       <a href="profile.html" class="btn btn-ghost">Profiel</a>
-      <a href="add-show.html" class="btn btn-accent">Review schrijven</a>
+      <a href="add-show.html" class="btn btn-accent">Show toevoegen</a>
     </div>
   </header>
 
   <main class="container section">
     <p class="kicker">Show</p>
-    <h1>The National - 2026-05-08</h1>
-    <p class="hero-copy">Vorst Nationaal, Brussel &bull; Gemiddelde score: 4.8/5</p>
+    <h1 id="show-title">The National - 2026-05-08</h1>
+    <p class="hero-copy" id="show-meta">Vorst Nationaal, Brussel &bull; Gemiddelde score: 4.8/5</p>
 
     <section class="section">
       <div class="section-head"><h2>Setlist</h2></div>
       <article class="card">
-        <ol>
+        <ol id="setlist">
           <li>Tropic Morning News</li>
           <li>Bloodbuzz Ohio</li>
           <li>Fake Empire</li>
@@ -74,41 +74,153 @@
   </main>
 
   <script>
-    const commentsKey = "liveledger-comments-the-national-2026-05-08";
+    const shows = {
+      "fontaines-dc-2026-05-12": {
+        artist: "Fontaines D.C.",
+        date: "2026-05-12",
+        venue: "Ancienne Belgique, Brussel",
+        score: "4.6/5",
+        setlist: ["Starburster", "Boys in the Better Land", "Favourite"],
+        comments: [
+          {
+            username: "mila_stage",
+            initials: "MS",
+            rating: 5,
+            text: "Starburster klonk live echt gigantisch. Heel sterke opener.",
+            date: "3 dagen geleden"
+          },
+          {
+            username: "bram_gigs",
+            initials: "BG",
+            rating: 4,
+            text: "Veel energie in de zaal, maar de vocals stonden soms wat stil in de mix.",
+            date: "2 dagen geleden"
+          }
+        ]
+      },
+      "idles-2026-05-10": {
+        artist: "IDLES",
+        date: "2026-05-10",
+        venue: "De Roma, Antwerpen",
+        score: "4.7/5",
+        setlist: ["Dancer", "Danny Nedelko", "Never Fight a Man With a Perm"],
+        comments: [
+          {
+            username: "noahrecords",
+            initials: "NR",
+            rating: 5,
+            text: "De Roma stond volledig op scherp. Dancer was het hoogtepunt.",
+            date: "4 dagen geleden"
+          },
+          {
+            username: "jade_live",
+            initials: "JL",
+            rating: 4,
+            text: "Brute show met veel interactie. Setlist mocht voor mij nog iets langer.",
+            date: "3 dagen geleden"
+          }
+        ]
+      },
+      "the-national-2026-05-08": {
+        artist: "The National",
+        date: "2026-05-08",
+        venue: "Vorst Nationaal, Brussel",
+        score: "4.8/5",
+        setlist: ["Tropic Morning News", "Bloodbuzz Ohio", "Fake Empire"],
+        comments: [
+          {
+            username: "mila_stage",
+            initials: "MS",
+            rating: 5,
+            text: "Sterk concert, top setlist. Bloodbuzz Ohio live blijft kippenvel.",
+            date: "2 dagen geleden"
+          },
+          {
+            username: "noahrecords",
+            initials: "NR",
+            rating: 4,
+            text: "Geluid was heel goed in de zaal. Alleen jammer dat About Today niet in de set zat.",
+            date: "1 dag geleden"
+          }
+        ]
+      },
+      "khruangbin-2026-05-01": {
+        artist: "Khruangbin",
+        date: "2026-05-01",
+        venue: "AB, Brussel",
+        score: "4.5/5",
+        setlist: ["Time (You and I)", "Evan Finds the Third Room", "People Everywhere"],
+        comments: [
+          {
+            username: "vinylmax",
+            initials: "VM",
+            rating: 5,
+            text: "Heel strakke groove van begin tot einde. De zaal zat meteen mee.",
+            date: "5 dagen geleden"
+          }
+        ]
+      },
+      "khruangbin-2026-04-14": {
+        artist: "Khruangbin",
+        date: "2026-04-14",
+        venue: "Trix, Antwerpen",
+        score: "4.2/5",
+        setlist: ["Friday Morning", "Lady and Man", "Maria Tambien"],
+        comments: [
+          {
+            username: "sofie_setlists",
+            initials: "SS",
+            rating: 4,
+            text: "Mooie sfeer en sterke visuals. De bisronde was kort maar goed.",
+            date: "1 week geleden"
+          }
+        ]
+      }
+    };
     const currentUser = {
       username: "luka_live",
       initials: "LL"
     };
-    const defaultComments = [
-      {
-        username: "mila_stage",
-        initials: "MS",
-        rating: 5,
-        text: "Sterk concert, top setlist. Bloodbuzz Ohio live blijft kippenvel.",
-        date: "2 dagen geleden"
-      },
-      {
-        username: "noahrecords",
-        initials: "NR",
-        rating: 4,
-        text: "Geluid was heel goed in de zaal. Alleen jammer dat About Today niet in de set zat.",
-        date: "1 dag geleden"
-      }
-    ];
+    const params = new URLSearchParams(window.location.search);
+    const showId = shows[params.get("id")] ? params.get("id") : "the-national-2026-05-08";
+    const activeShow = shows[showId];
+    const commentsKey = `liveledger-comments-${showId}`;
 
+    const showTitle = document.querySelector("#show-title");
+    const showMeta = document.querySelector("#show-meta");
+    const setlist = document.querySelector("#setlist");
     const commentsList = document.querySelector("#comments-list");
     const commentCount = document.querySelector("#comment-count");
     const commentForm = document.querySelector("#comment-form");
     const commentText = document.querySelector("#comment-text");
     const commentRating = document.querySelector("#comment-rating");
+    const currentUserAvatar = document.querySelector(".comment-form .avatar");
 
     function getComments() {
       const savedComments = localStorage.getItem(commentsKey);
-      return savedComments ? JSON.parse(savedComments) : defaultComments;
+      return savedComments ? JSON.parse(savedComments) : activeShow.comments;
     }
 
     function saveComments(comments) {
       localStorage.setItem(commentsKey, JSON.stringify(comments));
+    }
+
+    function getProfilePhoto(username) {
+      return localStorage.getItem(`liveledger-profile-photo-${username}`);
+    }
+
+    function applyAvatar(element, comment) {
+      const photoUrl = getProfilePhoto(comment.username);
+
+      if (photoUrl) {
+        element.textContent = "";
+        element.style.backgroundImage = `url("${photoUrl}")`;
+        element.classList.add("has-image");
+      } else {
+        element.style.backgroundImage = "";
+        element.classList.remove("has-image");
+        element.textContent = comment.initials;
+      }
     }
 
     function createComment(comment) {
@@ -123,7 +235,7 @@
 
       const avatar = document.createElement("span");
       avatar.className = "avatar";
-      avatar.textContent = comment.initials;
+      applyAvatar(avatar, comment);
       avatarLink.append(avatar);
 
       const body = document.createElement("div");
@@ -158,6 +270,18 @@
       const comments = getComments();
       commentsList.replaceChildren(...comments.map(createComment));
       commentCount.textContent = `${comments.length} reactie${comments.length === 1 ? "" : "s"}`;
+      applyAvatar(currentUserAvatar, currentUser);
+    }
+
+    function renderShow() {
+      showTitle.textContent = `${activeShow.artist} - ${activeShow.date}`;
+      showMeta.innerHTML = `${activeShow.venue} &bull; Gemiddelde score: ${activeShow.score}`;
+      document.title = `LiveLedger - ${activeShow.artist}`;
+      setlist.replaceChildren(...activeShow.setlist.map((song) => {
+        const item = document.createElement("li");
+        item.textContent = song;
+        return item;
+      }));
     }
 
     commentForm.addEventListener("submit", (event) => {
@@ -183,6 +307,7 @@
       renderComments();
     });
 
+    renderShow();
     renderComments();
   </script>
 </body>
