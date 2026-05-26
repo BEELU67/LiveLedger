@@ -27,7 +27,7 @@
   <main class="container section">
     <p class="kicker">Show</p>
     <h1>The National - 2026-05-08</h1>
-    <p class="hero-copy">Vorst Nationaal, Brussel • Gemiddelde score: 4.8/5</p>
+    <p class="hero-copy">Vorst Nationaal, Brussel &bull; Gemiddelde score: 4.8/5</p>
 
     <section class="section">
       <div class="section-head"><h2>Setlist</h2></div>
@@ -41,10 +41,150 @@
     </section>
 
     <section class="section">
-      <div class="section-head"><h2>Reacties</h2></div>
-      <article class="card"><p>Sterk concert, top setlist.</p></article>
+      <div class="section-head">
+        <h2>Reacties</h2>
+        <p class="comment-count" id="comment-count">0 reacties</p>
+      </div>
+
+      <form class="comment-form card" id="comment-form">
+        <a class="avatar-link" href="profile.html?user=luka_live" aria-label="Ga naar profiel van @luka_live">
+          <span class="avatar">LL</span>
+        </a>
+        <div class="comment-inputs">
+          <label class="sr-only" for="comment-text">Plaats een reactie</label>
+          <textarea id="comment-text" name="comment" rows="3" placeholder="Plaats een reactie..." required></textarea>
+          <div class="comment-tools">
+            <label class="rating-field" for="comment-rating">
+              Rating
+              <select id="comment-rating" name="rating" required>
+                <option value="5">5/5</option>
+                <option value="4">4/5</option>
+                <option value="3">3/5</option>
+                <option value="2">2/5</option>
+                <option value="1">1/5</option>
+              </select>
+            </label>
+            <button class="btn btn-accent" type="submit">Reageren</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="comments-list" id="comments-list" aria-live="polite"></div>
     </section>
   </main>
+
+  <script>
+    const commentsKey = "liveledger-comments-the-national-2026-05-08";
+    const currentUser = {
+      username: "luka_live",
+      initials: "LL"
+    };
+    const defaultComments = [
+      {
+        username: "mila_stage",
+        initials: "MS",
+        rating: 5,
+        text: "Sterk concert, top setlist. Bloodbuzz Ohio live blijft kippenvel.",
+        date: "2 dagen geleden"
+      },
+      {
+        username: "noahrecords",
+        initials: "NR",
+        rating: 4,
+        text: "Geluid was heel goed in de zaal. Alleen jammer dat About Today niet in de set zat.",
+        date: "1 dag geleden"
+      }
+    ];
+
+    const commentsList = document.querySelector("#comments-list");
+    const commentCount = document.querySelector("#comment-count");
+    const commentForm = document.querySelector("#comment-form");
+    const commentText = document.querySelector("#comment-text");
+    const commentRating = document.querySelector("#comment-rating");
+
+    function getComments() {
+      const savedComments = localStorage.getItem(commentsKey);
+      return savedComments ? JSON.parse(savedComments) : defaultComments;
+    }
+
+    function saveComments(comments) {
+      localStorage.setItem(commentsKey, JSON.stringify(comments));
+    }
+
+    function createComment(comment) {
+      const article = document.createElement("article");
+      article.className = "comment card";
+
+      const profileHref = `profile.html?user=${encodeURIComponent(comment.username)}`;
+      const avatarLink = document.createElement("a");
+      avatarLink.className = "avatar-link";
+      avatarLink.href = profileHref;
+      avatarLink.setAttribute("aria-label", `Ga naar profiel van @${comment.username}`);
+
+      const avatar = document.createElement("span");
+      avatar.className = "avatar";
+      avatar.textContent = comment.initials;
+      avatarLink.append(avatar);
+
+      const body = document.createElement("div");
+      body.className = "comment-body";
+
+      const meta = document.createElement("div");
+      meta.className = "comment-meta";
+
+      const author = document.createElement("a");
+      author.className = "comment-author";
+      author.href = profileHref;
+      author.textContent = `@${comment.username}`;
+
+      const date = document.createElement("span");
+      date.textContent = comment.date;
+
+      const rating = document.createElement("span");
+      rating.className = "comment-rating";
+      rating.textContent = `${"\u2605".repeat(comment.rating)}${"\u2606".repeat(5 - comment.rating)} ${comment.rating}/5`;
+
+      const text = document.createElement("p");
+      text.textContent = comment.text;
+
+      meta.append(author, date, rating);
+      body.append(meta, text);
+      article.append(avatarLink, body);
+
+      return article;
+    }
+
+    function renderComments() {
+      const comments = getComments();
+      commentsList.replaceChildren(...comments.map(createComment));
+      commentCount.textContent = `${comments.length} reactie${comments.length === 1 ? "" : "s"}`;
+    }
+
+    commentForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = commentText.value.trim();
+
+      if (!text) {
+        return;
+      }
+
+      const comments = getComments();
+      comments.unshift({
+        username: currentUser.username,
+        initials: currentUser.initials,
+        rating: Number(commentRating.value),
+        text,
+        date: "Net geplaatst"
+      });
+
+      saveComments(comments);
+      commentForm.reset();
+      commentRating.value = "5";
+      renderComments();
+    });
+
+    renderComments();
+  </script>
 </body>
 </html>
 
