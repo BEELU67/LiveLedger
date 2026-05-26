@@ -4,12 +4,21 @@ declare(strict_types=1);
 require __DIR__ . '/auth.php';
 require __DIR__ . '/config.php';
 
-$allStmt = $pdo->query(
-    'SELECT s.show_date, s.artist, s.venue, s.city, u.email
-     FROM shows s
-     JOIN users u ON u.id = s.user_id
-     ORDER BY s.show_date DESC, s.artist ASC'
-);
+$search = trim((string) ($_GET['q'] ?? ''));
+$allSql = 'SELECT s.show_date, s.artist, s.venue, s.city, u.email
+           FROM shows s
+           JOIN users u ON u.id = s.user_id';
+$allParams = [];
+
+if ($search !== '') {
+    $allSql .= ' WHERE s.artist LIKE :q OR s.venue LIKE :q OR s.city LIKE :q OR s.show_date = :exact_date';
+    $allParams[':q'] = '%' . $search . '%';
+    $allParams[':exact_date'] = $search;
+}
+
+$allSql .= ' ORDER BY s.show_date DESC, s.artist ASC';
+$allStmt = $pdo->prepare($allSql);
+$allStmt->execute($allParams);
 $allShows = $allStmt->fetchAll();
 
 $myShows = [];
@@ -58,6 +67,10 @@ if (isLoggedIn()) {
   <main class="container section">
     <p class="kicker">Shows</p>
     <h1>Alle opgeslagen shows</h1>
+    <form class="searchbar section" action="shows.php" method="get">
+      <input type="search" name="q" value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>" placeholder="Zoek op artiest, venue, stad of datum (YYYY-MM-DD)" />
+      <button type="submit" class="btn btn-accent">Zoeken</button>
+    </form>
     <div class="grid shows-grid section">
       <?php if (!$allShows): ?>
         <article class="card"><p>Nog geen shows opgeslagen.</p></article>
