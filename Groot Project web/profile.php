@@ -1,9 +1,21 @@
+<?php
+declare(strict_types=1);
+
+require __DIR__ . '/auth.php';
+requireLogin();
+
+$email = (string) $_SESSION['user_email'];
+$username = strstr($email, '@', true);
+if ($username === false || $username === '') {
+    $username = $email;
+}
+?>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LiveLedger - Artiest</title>
+  <title>LiveLedger - Profiel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -17,29 +29,26 @@
       <a href="artist.html">Artiesten</a>
       <a href="venues.html">Venues</a>
       <a href="community.html">Community</a>
+      <a href="profile.php">Profiel</a>
     </nav>
     <div class="actions">
-      <a href="profile.php" class="btn btn-ghost">Profiel</a>
+      <a href="logout.php" class="btn btn-ghost">Uitloggen</a>
       <a href="add-show.php" class="btn btn-accent">Show toevoegen</a>
     </div>
   </header>
 
   <main class="container section">
-    <p class="kicker">Artiest</p>
-    <h1>Khruangbin</h1>
-    <p class="hero-copy">Genre: Psychedelic / Funk</p>
-
+    <p class="kicker">Gebruiker</p>
+    <h1>@<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?></h1>
+    <p class="hero-copy"><?php echo htmlspecialchars($email, ENT_QUOTES, 'UTF-8'); ?></p>
     <section class="section">
-      <div class="section-head">
-        <h2>Geregistreerde shows</h2>
-      </div>
-      <div class="grid shows-grid">
-        <article class="card"><p class="meta">2026-05-01 • AB, Brussel</p><h3><a href="show.html">Khruangbin Live</a></h3></article>
-        <article class="card"><p class="meta">2026-04-14 • Trix, Antwerpen</p><h3><a href="show.html">Khruangbin Live</a></h3></article>
-      </div>
+      <div class="section-head"><h2>Bijgewoonde shows</h2></div>
+      <article class="card"><p>12 shows gelogd</p></article>
+    </section>
+    <section class="section">
+      <div class="section-head"><h2>Reviews</h2></div>
+      <article class="card"><p>5 reviews geschreven</p></article>
     </section>
   </main>
 </body>
 </html>
-
-
